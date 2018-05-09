@@ -73,7 +73,7 @@ export const styles = StyleSheet.create({
   } ,
   maxText : {
      textAlign : 'center' ,
-      width:30 ,
+      width:40 ,
       height : 25 ,
       marginLeft :175 ,
       backgroundColor : 'gray',
