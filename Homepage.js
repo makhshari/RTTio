@@ -18,20 +18,21 @@ export default class Homepage extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-        currentPower: '73' ,
-        currentLevel: '4'  ,
+        currentPower: '0' ,
+        currentLevel: '0'  ,
+        powerDisplay : '0',
+        powerUnit : "Watt",
         currentMax : 1000 ,
-        mode : 'powermeter' ,
+        mode : 'levelmeter' ,
         selectedBand: "FM" , 
         selectedFreq: 0 ,
+        currentFreq: 0 ,
         pickers: [] ,
         selectedAtt: '0' ,
         selectedCoupling: '0' ,
         selectedFR : 'F' ,
         attPromptVisible : false ,
-        couplingPromptVisible : false ,
-        modePromptVisible : false ,
-        powerUnit : "Watt"
+        modePromptVisible : false 
       }
       this.generatePickers () ;
       this.selectPickers () ;
@@ -146,8 +147,25 @@ export default class Homepage extends React.Component {
               if(mainClass.state.mode=="powermeter" ){
                 if( mainClass.state.currentPower != newCoupling)
                     newPower =(Math.pow(10,( (newCoupling + mainClass.state.currentLevel) /10 )))/1000
-                    console.log("%%%%%%",newPower)
                     mainClass.setState({currentPower : newPower})
+                    if(newPower>1000){
+                      mainClass.setState({powerDisplay : newPower/1000})
+                      mainClass.setState({powerUnit : "kWatts"})
+                    }
+                    else if(newPower<0.001){
+                      mainClass.setState({powerDisplay : newPower*1000000})
+                      mainClass.setState({powerUnit : "microWatts"})
+                    }
+                    else if(newPower<1){
+                      mainClass.setState({powerDisplay : newPower*1000})
+                      mainClass.setState({powerUnit : "miliWatts"})
+                    }
+                    else {
+                      mainClass.setState({powerDisplay : newPower})
+                      mainClass.setState({powerUnit : "Watt"})
+                    }
+
+
                 this.latestPower = newCoupling 
               }
                 break 
@@ -158,9 +176,25 @@ export default class Homepage extends React.Component {
   
                   mainClass.setState({currentLevel : newLevel})
                   if(mainClass.state.mode=="levelmeter"){
-                    newPower =(Math.pow(10,( (parseInt(mainClass.state.selectedAtt) + mainClass.state.currentLevel) /10 )))/1000
+                    console.log("att : ",)
+                    newPower =(Math.pow(10,( (parseFloat(mainClass.state.selectedAtt) + mainClass.state.currentLevel) /10 )))/1000
                     console.log("^^^^^",newPower)
-                    mainClass.setState({currentPower : newPower})
+                    if(newPower>1000){
+                      mainClass.setState({powerDisplay : newPower/1000})
+                      mainClass.setState({powerUnit : "kWatts"})
+                    }
+                    else if(newPower<0.001){
+                      mainClass.setState({powerDisplay : newPower*1000000})
+                      mainClass.setState({powerUnit : "microWatts"})
+                    }
+                    else if(newPower<1){
+                      mainClass.setState({powerDisplay : newPower*1000})
+                      mainClass.setState({powerUnit : "miliWatts"})
+                    }
+                    else {
+                      mainClass.setState({powerDisplay : newPower})
+                      mainClass.setState({powerUnit : "Watt"})
+                    }
                   }
               
               this.latestLevel = newLevel 
@@ -213,7 +247,7 @@ export default class Homepage extends React.Component {
           return ( (parseInt(power)/parseInt(max) )  *100 )
         }    
     static navigationOptions = {
-      title: 'Watt-Meter',
+      title: 'Powermeter',
       headerTintColor: 'purple',
       };
 
@@ -225,15 +259,15 @@ export default class Homepage extends React.Component {
     openAttModal() {
         this.setState({attPromptVisible:true});
       }
-    openCouplingModal() {
-        this.setState({couplingPromptVisible:true});
-      }
     openModeModal() {
         this.setState({modePromptVisible:true});
       }
     
     render() {
       console.disableYellowBox = true;
+
+
+
       const { navigate } = this.props.navigation
       return (
         <View style={styles.container}>
@@ -263,7 +297,7 @@ export default class Homepage extends React.Component {
                                 style={styles.couplingInput}
                                 keyboardType='numeric'
                                 onChangeText={(text) => this.setState({selectedAtt: text })}
-                                value={this.state.selectedAtt}
+                                value={(this.state.selectedAtt).toString()}
                                 returnKeyType="next"
                                 maxLength={10}
                                 onChange = {(num) => this.setState({selectedAtt : num})}
@@ -280,44 +314,6 @@ export default class Homepage extends React.Component {
                               }
                               }
                               title="Submit">
-                          </Button>        
-                      </View>
-                  </ModalWrapper>
-
-                  <ModalWrapper
-                      transparent={true}
-                      visible={this.state.couplingPromptVisible}
-                      animationIn={'slideInUp'}
-                      animationOut={'slideOutDown'}
-                      animationInTiming = {1000} 
-                      onRequestClose={() => this.closeModal()}
-                      style={styles.modal}
-                      showOverlay = {true}
-                      >
-                      <View style={styles.modalContainer}> 
-                          <Text>Enter Coupling :</Text>
-                          <View style={styles.inpContainer}>
-                            <View style={styles.innerContainer}>
-                              <TextInput
-                                style={styles.couplingInput}
-                                keyboardType='numeric'
-                                onChangeText={(text) => this.setState({selectedAtt: text })}
-                                value={this.state.currentPower}
-                                returnKeyType="next"
-                                maxLength={10}
-                                onChange = {(num) => this.setState({selectedCoupling : num})}
-                                />
-                            <Text style={styles.modalUnit}>unt</Text>
-                            </View>
-                          </View>
-                          <Button
-                              title="Submit"
-                                onPress={() =>{
-                                    this.closeModal()
-                                    this.networkCall(this,this.state.selectedAtt,"setCoupling")
-                                  }
-                                  }
-                              >
                           </Button>        
                       </View>
                   </ModalWrapper>
@@ -363,26 +359,6 @@ export default class Homepage extends React.Component {
           </View>
         </View>
       );
-      function changeBand(event){
-        console.log("band change button pressed!") ;
-        } 
-      function sendToDevice  () {
-        console.log("send to device function") ;
-        }
-      function setAutt () {
-            selectedAtt = parseInt(this.state.selectedAtt) ;
-            var data ={"att":selectedAtt}
-            console.log("network response : ",networkCall(this,data,"setAtt"))
-            Keyboard.dismiss() ;
-          }
-    
-      function resetAutt(){
-          this.setState({
-            selectedAtt: 0
-          });
-          var data ={"att":0}
-          console.log("network response : ",networkCall(this,data,"setAtt"))
-          }
      }
     PowerGauge =() => {
       return (
@@ -393,7 +369,7 @@ export default class Homepage extends React.Component {
                     style={styles.powerGauge}
                     size={255}
                     width={20}
-                    fill={ this.evaluatePower(this.state.currentPower,this.state.currentMax)}
+                    fill={ this.evaluatePower(this.state.powerDisplay,this.state.currentMax)}
                     rotation={90}
                     cropDegree={90}
                     tintColor="purple"
@@ -409,7 +385,7 @@ export default class Homepage extends React.Component {
                 </AnimatedGaugeProgress>
             </View>
             <View style={styles.powerDisplay}> 
-                            <Text style={styles.powerDisplayDigit} >{ parseInt(this.state.currentPower).toPrecision(4)}</Text> 
+                            <Text style={styles.powerDisplayDigit} >{ (parseFloat(this.state.powerDisplay)).toFixed(2)}</Text> 
                             <Text style={styles.powerDisplayUnit}> {this.state.powerUnit} </Text>
             </View>             
         </View>
@@ -433,7 +409,7 @@ export default class Homepage extends React.Component {
               </AnimatedGaugeProgress>
             </View>
             <View style={styles.levelDisplay}>      
-                            <AnimateNumber style={styles.levelDisplayDigit} value={ parseInt(this.state.currentLevel).toPrecision(3) } countBy={100} interval={100} /> 
+                            <AnimateNumber style={styles.levelDisplayDigit} value={ parseFloat(this.state.currentLevel).toFixed(2) } countBy={100} interval={100} /> 
                             <Text style={styles.levelDisplayUnit}> dBm </Text>
             </View>
         </View>
@@ -472,7 +448,8 @@ export default class Homepage extends React.Component {
         </View>
         <Button title="Set Channel" style={styles.sendButton}
                         onPress={
-                          ()=> {  
+                          ()=> {
+                            this.setState({currentFreq: parseFloat(this.state.selectedFreq.valueOf())})
                             if(this.state.selectedBand.charAt(0) == 'F'){
                               channelString=(parseInt(this.state.selectedFreq.valueOf())-88)
                               if(channelString<10){
@@ -502,7 +479,7 @@ export default class Homepage extends React.Component {
             {label: 'powemeter', value: "powemeter" },
             {label: 'levelmeter', value: "levelmeter" } 
           ] }
-          initial={0}
+          initial={1}
           formHorizontal={true}
           labelHorizontal={false}
           buttonColor={'purple'}
@@ -522,11 +499,17 @@ export default class Homepage extends React.Component {
     RightPanel=()=>{
      if(this.state.mode=="levelmeter"){
         return(
-                <View style={styles.throughInputs}>
+                <View >
                         <Button
+                            style={styles.throughInputs}
                              title="Attenuation"
                             onPress={() => this.openAttModal()} >
                         </Button>
+                        <View style={styles.infos}>
+                            <Text style={styles.infoItem}>Channel :{this.state.currentFreq} </Text>
+                            <Text style={styles.infoItem}>Coupling :{this.state.selectedAtt} </Text>
+                            <Text style={styles.infoItem}>Power(dBm) :{ 10*(Math.log((this.state.currentPower))*1000) } </Text>
+                        </View>
                 </View>
         );
       }else {

@@ -4940,6 +4940,10 @@ react-native-simple-gauge@^0.1.7:
   dependencies:
     art "^0.10.0"
 
+react-native-simple-modal@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-simple-modal/-/react-native-simple-modal-8.0.0.tgz#08ee6b114cd5180e27430c4f8685b05d2aa9199e"
+
 react-native-simple-radio-button@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.1.tgz#4a4a5cae903b6bc680c5e4bd5931948aa7608da0"

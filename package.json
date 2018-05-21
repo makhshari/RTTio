@@ -28,6 +28,7 @@
     "react-native-modal": "^5.1.0",
     "react-native-modal-wrapper": "^3.1.0",
     "react-native-simple-gauge": "^0.1.7",
+    "react-native-simple-modal": "^8.0.0",
     "react-native-simple-radio-button": "^2.7.1",
     "react-navigation": "^1.2.0",
     "react_native_mqtt": "^1.1.9"

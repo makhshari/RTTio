@@ -1,5 +1,5 @@
 import React , {Component} from 'react';
-import { StyleSheet, Text, View , Picker , Button , TextInput , KeyboardAvoidingView , Keyboard } from 'react-native';
+import { StyleSheet, Text, View , Picker , Button , TextInput , KeyboardAvoidingView , Keyboard , Image } from 'react-native';
 import {RippleLoader,TextLoader} from 'react-native-indicator';
 import {StackNavigator,} from 'react-navigation';
 
@@ -12,12 +12,18 @@ export default class Welcome extends React.Component {
     }
   }
   static navigationOptions = {
-    title: 'Devices',
+    title: 'Takta Powermeter',
   };
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
+              <View>
+                <Image
+                  source = {require('./images/logo.png')}
+                  style={styles.logo}
+                />
+              </View>
               <View style={styles.indicatorContainer}>
                   <RippleLoader size={200} />
                   <TextLoader text="Searching for Watt-Meter Devices" />
@@ -49,7 +55,11 @@ function renderIf(condition, content) {
   }
 }
 const styles = StyleSheet.create({
-
+      logo : {
+        width: 250,
+        height: 250,
+        alignSelf:"center" 
+      } ,
       container : {
      
       },
@@ -57,7 +67,7 @@ const styles = StyleSheet.create({
 
       } ,
       indicatorContainer : {
-        paddingTop : 100 ,
+        paddingTop :0 ,
         display : 'flex' ,
         alignItems : 'center' ,
      

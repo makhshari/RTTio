@@ -65,13 +65,15 @@ export const styles = StyleSheet.create({
       marginLeft : 10 ,
       width:30 ,
       height : 25 ,
-      backgroundColor : '#f5ccff',
+      color: 'white',
+      backgroundColor : 'gray',
       borderWidth: 2 ,
-      borderColor : '#f5ccff',
+      borderColor : 'gray',
       borderRadius : 10 ,
       overflow:'hidden' ,
   } ,
   maxText : {
+     color: 'white',
      textAlign : 'center' ,
       width:40 ,
       height : 25 ,
@@ -142,7 +144,7 @@ export const styles = StyleSheet.create({
   powerDisplay: {
     flex : 0.4 ,
     paddingBottom:20 ,
-    width :100 ,
+    width :120 ,
     display : 'flex' ,
     flexDirection : 'row' ,
     alignContent : 'center' ,
@@ -273,6 +275,20 @@ attContainer :{
 throughInputs : {
   display: 'flex' ,
   flexDirection : 'column' ,
+} , 
+infos : {
+  marginTop:30 ,
+  alignItems : 'center' ,
+  justifyContent : 'center' ,
+  alignContent : 'center' ,
+  
+  display: 'flex' ,
+  flexDirection : 'column' ,
+},
+infoItem : {
+  textAlign : "center",
+  paddingBottom : 8 ,
+  fontSize : 17 ,
 } , 
 });
 

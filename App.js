@@ -4,6 +4,6 @@ import Welcome from './Welcome' ;
 
 const App = StackNavigator({
   Welcome: { screen: Welcome},
-  Home: { screen: Homepage},
+  Home: { screen: Homepage}
 })
 export default App;
