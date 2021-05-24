@@ -1,34 +1,71 @@
-# Smart Power Meter
-An IoT-based real-time system for measuring and monitoring different attributes of transmitters in different regions. It includes a node js back-end code as well as React Native app code.
+# RTTio: Remote TV Tranmitters IoT-based Watcher/Controller  
+
+RTTio is a full-stack IoT system for monitoring and controlling Remote TV Transmitters (RTT). 
+
+This IoT project aims to help TV broadcasting organizations to monitor RTTs remotely without the need of system experts to be physically present. This IoT solution could save a lot of time and cost for the broadcasting company, while increasing the reliability and quality of their services. 
+
+## Architecture
+![System Architecture](./images/system.png?raw=true "System Architecture")
+
+- Software/hardware developers and broadcasting station experts can:
+  - **Fetch historical data** of different transmitter devices from the cloud server storaged data.
+  - **Read** RTT devices' states, such as power level, in **real-time** throught the iOS/Android App.
+  - **Send real-time commands**, such as set/reset attenuation/frequency-channels, to the RTT devices throught the iOS/Android App.
+  - See the success/failure of control commands.
+- The **iOS/Android app** developed in React-Native shows the real-time telemetry data from RTT devices and allow users to send commands. 
+  ![System Architecture](./images/app.png?raw=true "System Architecture")
+- The real-time communication between the mobile app and the RTT devices is implemented by an MQTT-based pub-sub messaging protocol. A cloud-based MQTT broker is used for routing messages. 
+- To keep the messaging as close as possible to real-time, the mobile app and RTT devices have a direct commuincation in RTTio, without any intermediate component intervene them. In fact, a separate routing component handle their communication and other tasks that require further processings are left for a separate cloud server.
+- The app send the telemetry data to a separate cloud server for storage and processing.
+-  The RTTio cloud server holds the central logics for RTT devices' safety. As the app sends the telemetry data to the cloud, after some safety-checking, it will send alert to the app to show to the user in case of emergencies.
+
+### About the RTT devices and Hardware Layer
+[RTTs](https://en.wikipedia.org/wiki/Television_transmitter) are digital devices that radiates radio waves that carry a video signal representing moving images, along with a synchronized audio channel, which is received by television receivers belonging to a public audience, which display the image on a screen. Device documentation can be accessed [here](./docs/transmitter-documentation.pdf).
+
+- One ATmega microcontroller is programmed for each RTT device which can capture and process the transmitter data via a serial communicator. All messages are pre-processed and sent back-and-forth from/to the transmitter using this unit. 
+  
+- The other necessary hardware unit is ESP8266 Wi-Fi microchip that has a serial communication with ATmega in this system. This device has full TCP/IP stack and microcontroller capabilities and is used for communicating with the cloud-based MQTT broker.
+
+![System Architecture](./images/transmitter.jpg?raw=true "System Architecture")
+*Image captured during initial testing stages. The prototype serial communicators are attached to an on-site transmitter device.*
+
+Certain attributes of these devices, such as **power level**, **temperature**, and **frequency channels**, are required to be monitored and controlled regularly by broadcasting organizations and transmitter station crews. 
+
+![System Architecture](./images/monitor.jpg?raw=true "System Architecture")
+*RTTs have an internal monitor which was the main way to monitor/control the transmitters without an IoT solution.*
+
+
+
+
+
+**Note that this repository only holds the React-native front-end code and some parts of the messaging source code. Full source code of RTTio is not allowed to be publickly accessible due to the company's copyright policies.**
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
-
-Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
-
+Below you'll find information about performing common tasks.
 ## Table of Contents
-
-* [Updating to New Releases](#updating-to-new-releases)
-* [Available Scripts](#available-scripts)
-  * [npm start](#npm-start)
-  * [npm test](#npm-test)
-  * [npm run ios](#npm-run-ios)
-  * [npm run android](#npm-run-android)
-  * [npm run eject](#npm-run-eject)
-* [Writing and Running Tests](#writing-and-running-tests)
-* [Environment Variables](#environment-variables)
-  * [Configuring Packager IP Address](#configuring-packager-ip-address)
-* [Adding Flow](#adding-flow)
-* [Customizing App Display Name and Icon](#customizing-app-display-name-and-icon)
-* [Sharing and Deployment](#sharing-and-deployment)
-  * [Publishing to Expo's React Native Community](#publishing-to-expos-react-native-community)
-  * [Building an Expo "standalone" app](#building-an-expo-standalone-app)
-  * [Ejecting from Create React Native App](#ejecting-from-create-react-native-app)
-    * [Build Dependencies (Xcode & Android Studio)](#build-dependencies-xcode-android-studio)
-    * [Should I Use ExpoKit?](#should-i-use-expokit)
-* [Troubleshooting](#troubleshooting)
-  * [Networking](#networking)
-  * [iOS Simulator won't open](#ios-simulator-wont-open)
-  * [QR Code does not scan](#qr-code-does-not-scan)
+  - [Updating to New Releases](#updating-to-new-releases)
+  - [Available Scripts](#available-scripts)
+    - [`npm start`](#npm-start)
+      - [`npm test`](#npm-test)
+      - [`npm run ios`](#npm-run-ios)
+      - [`npm run android`](#npm-run-android)
+        - [Using Android Studio's `adb`](#using-android-studios-adb)
+        - [Using Genymotion's `adb`](#using-genymotions-adb)
+      - [`npm run eject`](#npm-run-eject)
+  - [Customizing App Display Name and Icon](#customizing-app-display-name-and-icon)
+  - [Writing and Running Tests](#writing-and-running-tests)
+  - [Environment Variables](#environment-variables)
+    - [Configuring Packager IP Address](#configuring-packager-ip-address)
+  - [Adding Flow](#adding-flow)
+  - [Sharing and Deployment](#sharing-and-deployment)
+    - [Publishing to Expo's React Native Community](#publishing-to-expos-react-native-community)
+    - [Building an Expo "standalone" app](#building-an-expo-standalone-app)
+    - [Ejecting from Create React Native App](#ejecting-from-create-react-native-app)
+      - [Should I Use ExpoKit?](#should-i-use-expokit)
+  - [Troubleshooting](#troubleshooting)
+    - [Networking](#networking)
+    - [iOS Simulator won't open](#ios-simulator-wont-open)
+    - [QR Code does not scan](#qr-code-does-not-scan)
 
 ## Updating to New Releases
 

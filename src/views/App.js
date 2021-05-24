@@ -1,6 +1,6 @@
 import {StackNavigator,} from 'react-navigation';
 import Homepage from './Homepage' ;
-import Welcome from './Welcome' ;
+import Welcome from './WelcomePage' ;
 
 const App = StackNavigator({
   Welcome: { screen: Welcome},
