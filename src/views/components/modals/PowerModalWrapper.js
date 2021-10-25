@@ -1,4 +1,6 @@
-<PowerModalWrapper
+import ModalWrapper from 'react-native-modal-wrapper' ;
+
+export PowerModalWrapper=() =>{
 transparent={true}
 visible={this.state.attPromptVisible}
 animationIn={'slideInUp'}
@@ -7,7 +9,8 @@ animationInTiming = {1000}
 onRequestClose={() => this.closeModal()}
 style={styles.modal}
 showOverlay = {true}
->
+return(
+  <View>
   <View style={styles.modalContainer}> 
     <Text>Enter Attenuation :</Text>
     <View style={styles.inp xContainer}>
@@ -33,6 +36,6 @@ showOverlay = {true}
         }
         }
         title="Submit">
-    </Button>        
-</View>
-</PowerModalWrapper>
+    </Button>  
+  </View>      
+)}

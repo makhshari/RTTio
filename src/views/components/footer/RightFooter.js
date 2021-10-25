@@ -1,3 +1,4 @@
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel,index} from 'react-native-simple-radio-button'; 
 export RightFooter =() => {
     return (
       <View style={styles.att}>

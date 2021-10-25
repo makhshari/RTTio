@@ -1,4 +1,4 @@
-export generatePickers () {
+export generatePickers=() => {
     for (let i=88 ; i <108 ; i++ ){
       let lb = String(i) + '-' + String(i+1) + ' MHz'  
       this.FM_array.push(<Picker.Item label= {lb} value= {i} key={i} /> );
@@ -11,8 +11,8 @@ export generatePickers () {
       let lb ='CH '+ String(i) + ' : ' + String(474 + 8*(i-21)) + ' MHz'  
       this.UHF_array.push(<Picker.Item label={lb} value={i} key={i} />);
     }
-    }
-  export selectPickers(){
+}
+export selectPickers = () => {
     switch (this.state.selectedBand){
       case "FM" : 
           this.state.pickers = this.FM_array ;
@@ -23,4 +23,5 @@ export generatePickers () {
       case "UHF" : 
           this.state.pickers = this.UHF_array ;
         break ; 
-    }
+  }
+}

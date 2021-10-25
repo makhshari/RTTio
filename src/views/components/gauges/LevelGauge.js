@@ -1,3 +1,4 @@
+import { AnimatedGaugeProgress, GaugeProgress } from 'react-native-simple-gauge';
 export LevelGauge =() =>{
     return (
       <View style={styles.levelGaugeContainer}>

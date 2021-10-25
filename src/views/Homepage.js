@@ -1,10 +1,7 @@
 import React , {Component} from 'react';
 import { StyleSheet, Text, View , Picker , Button , TextInput , KeyboardAvoidingView , Keyboard ,AsyncStorage } from 'react-native';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel,index} from 'react-native-simple-radio-button'; 
-import { AnimatedGaugeProgress, GaugeProgress } from 'react-native-simple-gauge';
 import AnimateNumber from 'react-native-animate-number' ;
 import init from 'react_native_mqtt';
-import ModalWrapper from 'react-native-modal-wrapper' ;
 import networkCall from 'Message-Processing.js';
 
 import {styles} from './assets/homepageStyle' ;
@@ -71,18 +68,7 @@ export default class Homepage extends React.Component {
         </View>
       );
      }
-
-
-  
-  
-  
-
-  
-  
-  
-  
-  
-    }
+}
 
   
   

@@ -1,3 +1,4 @@
+import { AnimatedGaugeProgress, GaugeProgress } from 'react-native-simple-gauge';
 export PowerGauge =() => {
     return (
       <View style={styles.powerGaugeContainer}>
@@ -28,4 +29,4 @@ export PowerGauge =() => {
           </View>             
       </View>
             ) ; 
-          }
+}

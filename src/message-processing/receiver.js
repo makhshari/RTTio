@@ -1,4 +1,4 @@
-function onMessageArrived(message) {
+export function onMessageArrived(message) {
     var newMessage = message.payloadString
     var topic = message.destinationName
     switch(topic){
